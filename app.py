@@ -1,6 +1,7 @@
 from flask import Flask, request
 import re
 import os
+import subprocess
 
 app = Flask(__name__)
 
@@ -19,6 +20,9 @@ def stranger():
 def versionz():
     hash = os.environ.get('HASH')
     app_name = os.environ.get('APP_NAME')
+    # subprocess.run(["source","./versionz.sh"])
+    # hash = os.environ.get('HASH')
+    # app_name = os.environ.get('APP_NAME')
     print(hash)
     response = {
         "hash" : hash,
