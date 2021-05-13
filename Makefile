@@ -4,8 +4,10 @@
 
 export HASH := $(shell git rev-parse HEAD)
 
-export APP_NAME := SUPER-OCTO-HAPPY
+export APP_NAME := SplitCamelCase
 
 run:
-	@echo $(value HASH)
-	flask run
+	python3 app.py --port 3000
+
+test:
+	python3 app_test.py

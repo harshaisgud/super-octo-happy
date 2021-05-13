@@ -1,10 +1,23 @@
 from flask import Flask, request
 import re
 import os
-import subprocess
+import argparse
+import sys
 
 app = Flask(__name__)
 
+def parse_args(args):
+    parser = argparse.ArgumentParser(
+        description='Start HTTP Server')
+
+    parser.add_argument(
+        '-P', '--port',
+        help='port to start HTTP server on',
+        type=int)
+    return parser.parse_args(args)
+
+def camel_case_split(str):
+    return re.findall(r'[A-Z](?:[a-z]+|[A-Z]*(?=[A-Z]|$))', str)
 
 @app.route("/helloworld")
 def stranger():
@@ -20,10 +33,6 @@ def stranger():
 def versionz():
     hash = os.environ.get('HASH')
     app_name = os.environ.get('APP_NAME')
-    # subprocess.run(["source","./versionz.sh"])
-    # hash = os.environ.get('HASH')
-    # app_name = os.environ.get('APP_NAME')
-    print(hash)
     response = {
         "hash" : hash,
         "app_name" : app_name
@@ -33,7 +42,8 @@ def versionz():
 if __name__ == "__main__":
     color = os.getenv('COLOR','RED')
     print(color)
-    app.run()
-
-def camel_case_split(str):
-    return re.findall(r'[A-Z](?:[a-z]+|[A-Z]*(?=[A-Z]|$))', str)
+    opts = parse_args(sys.argv[1:])
+    port = opts.port
+    if port == None:
+        port = 8080
+    app.run(port=port)
