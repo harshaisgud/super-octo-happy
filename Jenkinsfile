@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage('Setup') {
       steps {
-        sh ' pip install -r requirements.txt --no-cache-dir '
+        sh ' python3 app_test.py '
       }
     }
 
