@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage('Setup') {
       steps {
-        sh 'pip install -r requirements.txt --user'
+        sh 'sudo -H pip install -r requirements.txt '
       }
     }
 
