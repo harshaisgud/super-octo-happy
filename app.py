@@ -16,8 +16,9 @@ def parse_args(args):
         type=int)
     return parser.parse_args(args)
 
-def camel_case_split(str):
-    return re.findall(r'[A-Z](?:[a-z]+|[A-Z]*(?=[A-Z]|$))', str)
+def camel_case_split(identifier):
+    matches = re.finditer('.+?(?:(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])|$)', identifier)
+    return [m.group(0) for m in matches]
 
 @app.route("/helloworld")
 def stranger():

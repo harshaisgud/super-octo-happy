@@ -25,7 +25,7 @@ class AppTest(unittest.TestCase):
         response2 = c.get('/helloworld',query_string={'name': 'harshaSri'})
         status_code2 = response2.status_code
         self.assertEqual(status_code2,200)
-        self.assertFalse(b'Harsha Sri' in response2.data)
+        self.assertTrue(b'harsha Sri' in response2.data)
 
     def test_versionz(self):
         c = app.test_client(self)
