@@ -1,8 +1,14 @@
-def commit_id
-def app
+
 
 pipeline {
   agent any
+  environment {
+      // Using returnStdout
+      CC = """${sh(
+              returnStdout: true,
+              script: 'git rev-parse HEAD'
+          )}""" 
+  }
   stages {
     stage('Test') {
       agent {
@@ -12,6 +18,7 @@ pipeline {
       }
       steps {
         sh '''
+        echo $CC
         python3 -m venv env
         source ./env/bin/activate 
         pip install -r requirements.txt
@@ -19,13 +26,13 @@ pipeline {
         ''' 
       }
     }
-    stage('build') {
-      steps {
-        step{
-        app = docker.build('harshaisgud/splitcamelcase:$(commit_id)')
-        }
-      }
-    }
+    // stage('build') {
+    //   steps {
+    //     step{
+    //     app = docker.build('harshaisgud/splitcamelcase:$(commit_id)')
+    //     }
+    //   }
+    // }
 
   }
 }
