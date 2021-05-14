@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage('Setup') {
       steps {
-        sh ' python3 app_test.py '
+        sh ' docker build . -t harsha:12344 -f Dockerfile '
       }
     }
 
