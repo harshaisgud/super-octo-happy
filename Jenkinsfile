@@ -4,7 +4,7 @@ pipeline {
       // Using returnStdout
       gitHash = """${sh(
               returnStdout: true,
-              script: 'git rev-parse HEAD'
+              script: 'git rev-parse HEAD | tr -d "\n"'
           )}""" 
       dockerRegistry = 'harshaisgud/splitcamelcase'
       dockerHubCredsID = 'ed3c7524-9c90-4b6f-9d04-625f6fe1e59f'
