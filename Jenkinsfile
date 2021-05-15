@@ -8,6 +8,7 @@ pipeline {
           )}""" 
       dockerRegistry = 'harshaisgud/splitcamelcase'
       dockerHubCredsID = 'ed3c7524-9c90-4b6f-9d04-625f6fe1e59f'
+      MY_KUBECONFIG = credentials('kubeconfig')
       
   }
   stages {
@@ -51,6 +52,14 @@ pipeline {
           sh 'chmod u+x ./kubectl'  
           sh 'sed -i "s|{{version}}|$gitHash|g" ./deployment/deployment.yaml'
           sh './kubectl apply -f ./deployment/deployment.yaml'
+        }
+      }
+    }
+    stage('Terraform init') {
+      steps {
+        echo 'Deploying Application'
+        script {
+          sh 'cd terrafrom && terraform init'
         }
       }
     }
