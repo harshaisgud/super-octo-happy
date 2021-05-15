@@ -3,6 +3,23 @@ import re
 import os
 import argparse
 import sys
+from logging.config import dictConfig
+
+dictConfig({
+    'version': 1,
+    'formatters': {'default': {
+        'format': '[%(asctime)s] %(levelname)s %(message)s',
+    }},
+    'handlers': {'wsgi': {
+        'class': 'logging.StreamHandler',
+        'stream': 'ext://sys.stdout',
+        'formatter': 'default'
+    }},
+    'root': {
+        'level': 'INFO',
+        'handlers': ['wsgi']
+    }
+})
 
 app = Flask(__name__)
 
@@ -48,7 +65,7 @@ def versionz():
 def shutdown():
     shutdown_server()
     return 'Server shutting down...'
-    
+
 if __name__ == "__main__":
     color = os.getenv('COLOR')
     print(color)
