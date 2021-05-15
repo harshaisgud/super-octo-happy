@@ -31,26 +31,26 @@ pipeline {
         echo 'Starting to build docker image'
 
         script {
-          sh 'docker build . -f Dockerfile -t $(dockerRegistry):$(gitHash)'
+          sh 'docker build . -f Dockerfile -t $dockerRegistry:$gitHash'
         }
       }
     }
-    stage('Push Image') {
-      steps {
-        echo 'Starting to build docker image'
+    // stage('Push Image') {
+    //   steps {
+    //     echo 'Starting to build docker image'
 
-        script {
-          docker.withRegistry('',dockerHubCredsID){
-              image.push()
-            }       
-        }
-      }
-    }
-    stage('Delete Pushed Image') {
+    //     script {
+    //       docker.withRegistry('',dockerHubCredsID){
+    //           image.push()
+    //         }       
+    //     }
+    //   }
+    // }
+    stage('Push Image') {
       steps {
         withCredentials([usernamePassword(credentialsId: dockerHubCredsID, passwordVariable: 'password', usernameVariable: 'username')]) {
             sh 'docker login -u $username -p $password'
-            sh 'docker push $(dockerRegistry):$(gitHash)'
+            sh 'docker push $dockerRegistry:$gitHash'
         }
       }
     }
