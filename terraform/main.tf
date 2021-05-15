@@ -5,7 +5,7 @@ provider "helm" {
 }
 
 
-resource "helm_release" "nginx_ingress" {
+resource "helm_release" "camelcase" {
   name       = "camelcase"
   chart      = "./camelchart"
   namespace  = var.namespace
