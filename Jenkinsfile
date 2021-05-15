@@ -63,6 +63,16 @@ pipeline {
         }
       }
     }
+    stage('Terraform Apply') {
+      steps {
+        echo 'Deploying Application'
+        script {
+          sh 'export TF_VAR_config_path=$MY_KUBECONFIG'
+          sh 'export TF_VAR_namespace=camelcase'
+          sh 'cd ./terraform && terraform apply --auto-approve'
+        }
+      }
+    }
     stage('Teardown') {
       steps {
         echo 'Tearing Down Workspace'
