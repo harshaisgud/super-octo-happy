@@ -31,7 +31,7 @@ pipeline {
         echo 'Starting to build docker image'
 
         script {
-          def image = docker.build("${dockerRegistry}:${gitHash}")       
+          def image = docker.build("${dockerRegistry}:${gitHash}","-f Dockerfile .")       
         }
       }
     }
