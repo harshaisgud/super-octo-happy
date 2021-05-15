@@ -59,7 +59,7 @@ pipeline {
       steps {
         echo 'Deploying Application'
         script {
-          sh 'cd ./terrafrom && terraform init'
+          sh 'cd ./terraform && terraform init'
         }
       }
     }
