@@ -1,16 +1,17 @@
-
-
 pipeline {
   agent any
   environment {
       // Using returnStdout
-      CC = """${sh(
+      gitHash = """${sh(
               returnStdout: true,
               script: 'git rev-parse HEAD'
           )}""" 
+      dockerRegistry = 'harshaisgud/splitcamelcase'
+      dockerHubCredsID = 'ed3c7524-9c90-4b6f-9d04-625f6fe1e59f'
+      
   }
   stages {
-    stage('Test') {
+    stage('Test Application') {
       agent {
         docker {
           image 'python:alpine3.8'
@@ -18,7 +19,6 @@ pipeline {
       }
       steps {
         sh '''
-        echo $CC
         python3 -m venv env
         source ./env/bin/activate 
         pip install -r requirements.txt
@@ -26,13 +26,31 @@ pipeline {
         ''' 
       }
     }
-    // stage('build') {
-    //   steps {
-    //     step{
-    //     app = docker.build('harshaisgud/splitcamelcase:$(commit_id)')
-    //     }
-    //   }
-    // }
+    stage('Build Image') {
+      steps {
+        echo 'Starting to build docker image'
 
+        script {
+          def image = docker.build("${REPOSITORY}:${gitHash}")       
+        }
+      }
+    }
+    stage('Push Image') {
+      steps {
+        echo 'Starting to build docker image'
+
+        script {
+          docker.withRegistry('',dockerHubCredsID){
+              image.push()
+            }       
+        }
+      }
+    }
+    stage('Delete Pushed Image') {
+      steps {
+        sh 'docker rmi $dockerRegistry:$gitHash'
+      }
+    }
   }
 }
+
