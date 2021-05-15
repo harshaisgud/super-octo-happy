@@ -31,7 +31,7 @@ pipeline {
         echo 'Starting to build docker image'
 
         script {
-          def image = docker.build("${dockerRegistry}:${gitHash}",".")       
+          sh 'docker build . -f Dockerfile -t $(dockerRegistry):$(gitHash)'
         }
       }
     }
@@ -48,7 +48,10 @@ pipeline {
     }
     stage('Delete Pushed Image') {
       steps {
-        sh 'docker rmi $dockerRegistry:$gitHash'
+        withCredentials([usernamePassword(credentialsId: dockerHubCredsID, passwordVariable: 'password', usernameVariable: 'username')]) {
+            sh 'docker login -u $username -p $password'
+            sh 'docker push $(dockerRegistry):$(gitHash)'
+        }
       }
     }
   }
