@@ -47,7 +47,7 @@ pipeline {
       steps {
         echo 'Deploying Application'
         withKubeConfig([credentialsId: 'kubeconfig']) {
-          sh 'sed -i "s/{{version}}/$gitHash/g" ./deployments/deployment.yaml'
+          sh 'sed -i "s|{{version}}|$gitHash|g" ./deployment/deployment.yaml'
           sh 'kubectl apply -f ./deployments/deployment.yaml'
         }
       }
