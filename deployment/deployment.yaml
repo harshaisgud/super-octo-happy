@@ -17,6 +17,18 @@ spec:
     spec:
       containers:
       - name: app
-        image: harshaisgud/splitcamelcase:{{version}}
+        image: harshaisgud/splitcamelcase:7c0b185f61aa8a8f4f50efdbff8441570a36e0d7
+        env:
+          - name: PORT
+            value: "8080"
+          - name: COLOR
+            value: "YELLOW"
+        args: ["app.py","-P $(PORT)"]
         ports:
         - containerPort: 8080
+        lifecycle:
+            preStop:
+              httpGet:
+                port: 8080
+                path: /shutdown
+      terminationGracePeriodSeconds: 30

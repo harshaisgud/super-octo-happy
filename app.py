@@ -6,6 +6,10 @@ import sys
 
 app = Flask(__name__)
 
+def shutdown_server():
+    func = request.environ.get('werkzeug.server.shutdown')
+    func() 
+ 
 def parse_args(args):
     parser = argparse.ArgumentParser(
         description='Start HTTP Server')
@@ -40,6 +44,11 @@ def versionz():
     }
     return response
 
+@app.route('/shutdown')
+def shutdown():
+    shutdown_server()
+    return 'Server shutting down...'
+    
 if __name__ == "__main__":
     color = os.getenv('COLOR')
     print(color)
