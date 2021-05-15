@@ -41,7 +41,7 @@ def versionz():
     return response
 
 if __name__ == "__main__":
-    color = os.getenv('COLOR','RED')
+    color = os.getenv('COLOR')
     print(color)
     opts = parse_args(sys.argv[1:])
     port = opts.port
