@@ -58,7 +58,7 @@ pipeline {
         script {
           sh '''
           export TF_VAR_namespace=camelcase
-          cd ./terraform && terraform apply --auto-approve'
+          cd ./terraform && terraform apply --auto-approve
           '''
         }
       }
