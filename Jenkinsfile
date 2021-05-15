@@ -60,9 +60,9 @@ pipeline {
         script {
           sh '''
           docker rmi $dockerRegistry:$gitHash
-          unset $gitHash
-          unset $dockerRegistry
-          unset $dockerHubCredsID
+          unset gitHash
+          unset dockerRegistry
+          unset dockerHubCredsID
           '''
           
         }
