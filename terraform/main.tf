@@ -9,5 +9,5 @@ resource "helm_release" "nginx_ingress" {
   name       = "camelcase"
   chart      = "./camelchart"
   namespace  = var.namespace
-  values     = ["${file("./camelchart/values.yaml")}"]
+  values     = [file("./camelchart/values.yaml")]
 }

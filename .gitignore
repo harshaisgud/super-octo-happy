@@ -6,6 +6,9 @@ __pycache__/
 # C extensions
 *.so
 
+#terraform
+.terraform
+*.hcl
 #vscode
 .vscode
 # Distribution / packaging
