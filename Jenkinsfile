@@ -35,22 +35,20 @@ pipeline {
         }
       }
     }
-    // stage('Push Image') {
-    //   steps {
-    //     echo 'Starting to build docker image'
-
-    //     script {
-    //       docker.withRegistry('',dockerHubCredsID){
-    //           image.push()
-    //         }       
-    //     }
-    //   }
-    // }
     stage('Push Image') {
       steps {
+        echo 'Pushing Image into Registry'
         withCredentials([usernamePassword(credentialsId: dockerHubCredsID, passwordVariable: 'password', usernameVariable: 'username')]) {
             sh 'docker login -u $username -p $password'
             sh 'docker push $dockerRegistry:$gitHash'
+        }
+      }
+    }
+    stage('Delete Pushed Image') {
+      steps {
+        echo 'Deleting Pushed Image'
+        script {
+          sh 'docker build . -f Dockerfile -t $dockerRegistry:$gitHash'
         }
       }
     }
