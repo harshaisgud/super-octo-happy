@@ -29,9 +29,8 @@ pipeline {
     stage('Build Image') {
       steps {
         echo 'Starting to build docker image'
-
         script {
-          sh 'docker build . -f Dockerfile -t $dockerRegistry:$gitHash'
+          sh 'docker build . -f Dockerfile --build-arg GITHASH=$gitHash -t $dockerRegistry:$gitHash'
         }
       }
     }
@@ -44,11 +43,26 @@ pipeline {
         }
       }
     }
-    stage('Delete Pushed Image') {
+    stage('Deploy Application to Minikube') {
       steps {
-        echo 'Deleting Pushed Image'
+        echo 'Deploying Application'
+        withKubeConfig([credentialsId: 'kubeconfig']) {
+          sh 'sed -i "s/{{version}}/$gitHash/g" ./deployments/deployment.yaml'
+          sh 'kubectl apply -f ./deployments/deployment.yaml'
+        }
+      }
+    }
+    stage('Teardown') {
+      steps {
+        echo 'Tearing Down Workspace'
         script {
-          sh 'docker build . -f Dockerfile -t $dockerRegistry:$gitHash'
+          sh '''
+          docker rmi $dockerRegistry:$gitHash
+          unset $gitHash
+          unset $dockerRegistry
+          unset $dockerHubCredsID
+          '''
+          
         }
       }
     }
