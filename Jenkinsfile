@@ -47,6 +47,8 @@ pipeline {
       steps {
         echo 'Deploying Application'
         withKubeConfig([credentialsId: 'kubeconfig']) {
+          sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.19.0/bin/linux/amd64/kubectl"'  
+          sh 'chmod u+x ./kubectl'  
           sh 'sed -i "s|{{version}}|$gitHash|g" ./deployment/deployment.yaml'
           sh 'kubectl apply -f ./deployments/deployment.yaml'
         }
