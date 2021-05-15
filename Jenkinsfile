@@ -44,17 +44,6 @@ pipeline {
         }
       }
     }
-    stage('Deploy Application to Minikube') {
-      steps {
-        echo 'Deploying Application'
-        withKubeConfig([credentialsId: 'kubeconfig']) {
-          sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.19.0/bin/linux/amd64/kubectl"'  
-          sh 'chmod u+x ./kubectl'  
-          sh 'sed -i "s|{{version}}|$gitHash|g" ./deployment/deployment.yaml'
-          sh './kubectl apply -f ./deployment/deployment.yaml'
-        }
-      }
-    }
     stage('Terraform init') {
       steps {
         echo 'Deploying Application'
@@ -67,9 +56,10 @@ pipeline {
       steps {
         echo 'Deploying Application'
         script {
-          sh 'export TF_VAR_config_path=$MY_KUBECONFIG'
-          sh 'export TF_VAR_namespace=camelcase'
-          sh 'cd ./terraform && terraform apply --auto-approve'
+          sh '''
+          export TF_VAR_namespace=camelcase
+          cd ./terraform && terraform apply --auto-approve'
+          '''
         }
       }
     }
