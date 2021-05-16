@@ -23,7 +23,7 @@ dictConfig({
 
 app = Flask(__name__)
 
-@app.route("/versionz")
+@app.route("/")
 def versionz():
     hash = os.environ.get('HASH')
     app_name = os.environ.get('APP_NAME')
