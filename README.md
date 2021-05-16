@@ -30,3 +30,7 @@ where `GITHASH` is the value of githash of current commit. It can be obtained by
 
 ### Deploy to kubernetes 
 The application has been packaged as a chart and can be installed using the command `helm install release-name terraform/camelchart`
+
+
+## Jenkins Docker File
+A modified dockerfile for creating jenkins with the required binaries i.e kubectl and terraform has been added .
