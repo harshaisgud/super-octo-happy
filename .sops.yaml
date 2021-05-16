@@ -1,0 +1,3 @@
+creation_rules:
+- pgp: ACFC10B450B9FB136395222EAC560612B357FDFA
+  encrypted_regex: ^stringData$
