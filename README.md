@@ -30,7 +30,13 @@ where `GITHASH` is the value of githash of current commit. It can be obtained by
 
 ### Deploy to kubernetes 
 The application has been packaged as a chart and can be installed using the command `helm install release-name terraform/camelchart`
+Use minikube to test it out locally.
 
 
 ## Jenkins Docker File
 A modified dockerfile for creating jenkins with the required binaries i.e kubectl and terraform has been added .
+
+## SOPS
+The papertrail log destination has been encrypted using sops and gpg. The private key of the gpg key used to encrypt is required. Please visit the [sops](https://github.com/mozilla/sops "sops github") github for more details.
+
+
