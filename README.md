@@ -31,6 +31,7 @@ where `GITHASH` is the value of githash of current commit. It can be obtained by
 ### Deploy to kubernetes 
 The application has been packaged as a chart and can be installed using the command `helm install release-name terraform/camelchart`
 Use minikube to test it out locally.
+>The helm chart has seperated the versionz endpoint into two different applications to replicate a microservice.
 
 
 ## Jenkins Docker File
