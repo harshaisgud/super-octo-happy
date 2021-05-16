@@ -4,6 +4,8 @@ import os
 import argparse
 import sys
 from logging.config import dictConfig
+import requests
+import json
 
 dictConfig({
     'version': 1,
@@ -53,13 +55,22 @@ def stranger():
 
 @app.route("/versionz")
 def versionz():
-    hash = os.environ.get('HASH')
-    app_name = os.environ.get('APP_NAME')
-    response = {
-        "hash" : hash,
-        "app_name" : app_name
-    }
-    return response
+    versionz_endpoint = os.getenv('VERSIONZ_EP')
+    if versionz_endpoint == None:
+        hash = os.environ.get('HASH')
+        app_name = os.environ.get('APP_NAME')
+        response = {
+            "hash" : hash,
+            "app_name" : app_name
+        }
+        return response
+    else:
+        versionz_response = requests.get(versionz_endpoint)
+        response = json.loads(versionz_response.content.decode('utf-8'))
+        response['resp_time'] = str(versionz_response.elapsed.total_seconds()) + 's'
+        return response
+        
+        
 
 @app.route('/shutdown')
 def shutdown():
