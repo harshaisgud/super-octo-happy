@@ -65,6 +65,8 @@ def versionz():
         }
         return response
     else:
+        if "http://" not in versionz_endpoint:
+            versionz_endpoint = "http://" + versionz_endpoint
         versionz_response = requests.get(versionz_endpoint)
         response = json.loads(versionz_response.content.decode('utf-8'))
         response['resp_time'] = str(versionz_response.elapsed.total_seconds()) + 's'
