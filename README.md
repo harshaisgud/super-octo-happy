@@ -7,10 +7,10 @@ This http server includes two endpoints :
 
 - /helloworld
     This endpoint accepts query parameter of name. If no query parameter or one other than name is provided the endpoint returns the text `Hello Stranger`.
-    When a the name query parameter is provided , the text is split accoring to camel case.
-    For example `IP:PORT/helloword?name=HarshaSri` returns `Harsha Sri`.
+    When the name query parameter is provided , the text is split accoring to camel case.
+    For example `IP:PORT/helloworld?name=HarshaSri` returns `Harsha Sri`.
 - /versionz
-    This endpoint returns the name of the application and the hash of the current commit of the code.
+    This endpoint returns the name of the application and the githash of the current commit of the code.
 
 ## Usage Details
 
@@ -23,3 +23,10 @@ To run the app on a custom port export a shell variable using `export PORT=5000`
 
 ### Running it locally using python3
 The application can be started on a custom port with `python3 app.py [--port|-P]`. The default port is `8080`.
+
+### Running it locally using docker
+The docker file has been included to build the image. Build Image with `docker build -f Dockerfile . --build-arg GITHASH=value`
+where `GITHASH` is the value of githash of current commit. It can be obtained by running `git rev-parse HEAD`
+
+### Deploy to kubernetes 
+The application has been packaged as a chart and can be installed using the command `helm install release-name terraform/camelchart`
