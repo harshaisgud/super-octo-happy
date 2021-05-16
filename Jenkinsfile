@@ -9,6 +9,7 @@ pipeline {
       dockerRegistry = 'harshaisgud/splitcamelcase'
       dockerHubCredsID = 'ed3c7524-9c90-4b6f-9d04-625f6fe1e59f'
       MY_KUBECONFIG = credentials('kubeconfig')
+      deploymentNamespace = 'camelcase'
       
   }
   stages {
@@ -24,7 +25,8 @@ pipeline {
         source ./env/bin/activate 
         pip install -r requirements.txt
         python3 app_test.py
-        ''' 
+        '''
+        // TODO: Stash and unstash env folder so that pip install does not need to run twice 
       }
     }
     stage('Build Image') {
@@ -57,7 +59,8 @@ pipeline {
         echo 'Deploying Application'
         script {
           sh '''
-          export TF_VAR_namespace=camelcase
+          export TF_VAR_namespace=$deploymentNamespace
+          export TF_VAR_tag=$gitHash
           cd ./terraform && terraform apply --auto-approve
           '''
         }

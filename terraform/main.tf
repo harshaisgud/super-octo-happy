@@ -10,4 +10,15 @@ resource "helm_release" "camelcase" {
   chart      = "./camelchart"
   namespace  = var.namespace
   values     = [file("./camelchart/values.yaml")]
+  create_namespace = true
+
+  set {
+    name = "image.tag"
+    value = var.tag
+  }
+
+  set {
+    name = "versionz.image.tag"
+    value = var.tag
+  }
 }

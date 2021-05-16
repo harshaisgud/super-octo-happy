@@ -9,3 +9,8 @@ variable "namespace" {
     description = "Namespace to install release"
     default = "default"
 }
+
+variable "tag" {
+    type = string
+    description = "Deployment Tag"
+}
