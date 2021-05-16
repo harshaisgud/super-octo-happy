@@ -34,7 +34,8 @@ Use minikube to test it out locally.
 
 
 ## Jenkins Docker File
-A modified dockerfile for creating jenkins with the required binaries i.e kubectl and terraform has been added .
+A modified dockerfile for creating jenkins with the required binaries i.e kubectl and terraform has been added . Follow this [guide](https://www.jenkins.io/doc/book/installing/docker/) to run jenkins as a docker container. Use the modified docker in this repository instead of the one in the link.
+>To deploy using jenkins to minikube locally they need to be on the same docker network so that jenkins can discover the minikube api server endpoint
 
 ## SOPS
 The papertrail log destination has been encrypted using sops and gpg. The private key of the gpg key used to encrypt is required. Please visit the [sops](https://github.com/mozilla/sops "sops github") github for more details.
