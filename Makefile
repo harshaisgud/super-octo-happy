@@ -24,7 +24,7 @@ setup:
 .PHONY: setup
 
 build:
-	docker build . -f Dockerfile -t $(IMAGE):$(HASH)
+	docker build . -f Dockerfile -t $(IMAGE):$(HASH) --build-arg GITHASH=$(HASH)
 .PHONY: build
 
 push:
